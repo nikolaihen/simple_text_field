@@ -1,6 +1,8 @@
 # Simple Text Field
 
-If you're like me, you don't like making forms in Flutter because of the unneccessary boilerplate and complexity related to Flutter's built-in TextFormField. Even setting a fixed height can be troublesome, and this is quite annoying especially when trying to follow a strict design which needs to be pixel perfect. Therefore I made this package to simplify all that by applying some default styling and functionality which is very common in most apps today (which can be enabled/disabled when needed). Core features and functionality that comes out of the box is:
+If you're like me, you don't like making forms in Flutter because of the unneccessary boilerplate and complexity related to Flutter's built-in TextFormField. Even setting a fixed height can be troublesome, and this is quite annoying especially when trying to follow a strict design which needs to be pixel perfect. Therefore I made this package to simplify all that by applying some default styling and functionality which is very common in most apps today (which can be enabled/disabled when needed). 
+
+## Features and out-of-the-box functionality:
 
 - Set the height directly without the need to mess with the content padding while also respecting the font size
 - Add shadows directly as a parameter which behaves as you would expect, even when the text field rezises in response to validation errors etc.
