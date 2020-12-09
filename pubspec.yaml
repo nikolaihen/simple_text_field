@@ -1,8 +1,8 @@
 name: simple_text_field
-description: A new Flutter package project.
+description: Create minimal-looking, standarized TextFields with ease
 version: 0.0.1
-author:
-homepage:
+author: Nikolai Henriksen<henriksennikolai@hotmail.com>
+homepage: https://github.com/nikolaihen/simple_text_field.git
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
