@@ -6,7 +6,7 @@ If you're like me, you don't like making forms in Flutter because of the unnecce
 - Add shadows directly as a parameter which behaves as you would expect, even when the text field rezises in response to validation errors etc.
 - When not empty, display a button to clear the text
 - When text is obscure, display a button to show/hide the text (a must for passwords etc.)
-- Auto-validation feedback using the suffix icon to easily notice the user of a valid input
+- Auto-validation feedback using the suffix icon to easily notify the user of a valid input
 
 # Usage
 If you simply need a modern-looking text field with all the standard functionalities you see in most apps nowadays, then this is all you need:
