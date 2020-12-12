@@ -151,7 +151,9 @@ class SimpleTextField extends StatefulWidget {
     TextStyle textStyle,
     AutovalidateMode autovalidateMode = AutovalidateMode.disabled,
     BorderSide borderSide,
+    BorderRadius borderRadius,
     TextInputType keyboardType,
+    List<BoxShadow> shadow,
     Color fillColor = Colors.white,
     Color shadowColor,
     Icon prefixIcon,
@@ -178,11 +180,11 @@ class SimpleTextField extends StatefulWidget {
       onChanged: onChanged,
       suffixIconOnTap: suffixIconOnTap,
       onTap: onTap,
-      shadow: SimpleTextFieldShadows.regular(),
+      shadow: shadow ?? SimpleTextFieldShadows.regular(),
       prefixIcon: prefixIcon,
       suffixIcon: suffixIcon,
       validator: validator,
-      borderRadius: BorderRadius.circular(5),
+      borderRadius: borderRadius ?? BorderRadius.circular(5),
       enableClearButton: enableClearButton,
       textStyle: textStyle,
       isDense: isDense,
@@ -349,8 +351,8 @@ class _SimpleTextFieldState extends State<SimpleTextField> {
         Container(
           height: widget.height,
           decoration: BoxDecoration(
-            boxShadow: widget.shadow,
-            borderRadius: widget.borderRadius
+            boxShadow: widget.shadow ?? SimpleTextFieldShadows.regular(),
+            borderRadius: widget.borderRadius ?? BorderRadius.zero
           ),
         ),
         GestureDetector(
