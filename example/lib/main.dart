@@ -28,7 +28,10 @@ class ExamplePage extends StatefulWidget {
 
 class _ExamplePageState extends State<ExamplePage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  TextEditingController controller;
+  DateTime currentDate;
+  TextEditingController controllerDate;
+  TextEditingController controllerRegular;
+  TextEditingController controllerPassword;
   double textFieldHeight = 50;
   TextStyle textFieldStyle = TextStyle(
     fontSize: 16.0
@@ -38,7 +41,9 @@ class _ExamplePageState extends State<ExamplePage> {
 
   @override
   void initState() {
-    controller = TextEditingController();
+    controllerDate = TextEditingController();
+    controllerRegular = TextEditingController();
+    controllerPassword = TextEditingController();
     super.initState();
   }
 
@@ -60,57 +65,38 @@ class _ExamplePageState extends State<ExamplePage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               SimpleTextField.regular(
-                hintText: 'Regular',
-                controller: controller,
-                onChanged: (String val) {
-                  setState(() {
-                    formValid = val.length >= 5;
-                  });
-                },
+                labelText: 'Phone number',
+                controller: controllerRegular,
                 validator: (String val) {
-                  if (val.length < 5) {
-                    return 'Must be 5 characters or more!';
+                  if (val.length < 8) {
+                    return 'Must be 8 characters or more!';
                   }
                   return null;
                 },
-                validInputIcon: Icons.check_circle,
-                onTap: () => print('Tapped'),
+                prefixIcon: Icon(Icons.phone),
+                height: textFieldHeight,
+                isDense: isDense,
+                textStyle: textFieldStyle,
+                validInputIcon: Icon(Icons.check_circle),
+                keyboardType: TextInputType.phone,
               ),
               SizedBox(height: 30),
-              SimpleTextField(
-                hintText: 'Custom',
-                controller: controller,
-                height: textFieldHeight,
-                fillColor: Colors.white,
-                filled: true,
-                onChanged: (String val) {
-                  setState(() {
-                    formValid = val.length >= 5;
-                  });
-                },
-                shadow: [
-                  BoxShadow(
-                    offset: Offset(0, 2),
-                    blurRadius: 5,
-                    spreadRadius: 1,
-                    color: Colors.grey.shade400
-                  )
-                ],
-                prefixIcon: Icons.email,
-                suffixIcon: formValid 
-                    ? Icons.check_circle 
-                    : null,
-                validator: (String val) {
-                  if (val.length < 5) {
-                    return 'Must be 5 characters or more!';
-                  }
-                  return null;
-                },
+              SimpleTextField.regular(
+                labelText: 'Password',
+                controller: controllerPassword,
+                obscureText: true,
+                prefixIcon: Icon(Icons.lock),
+              ),
+              SizedBox(height: 30),
+              SimpleDateTextField(
+                labelText: 'Regular date field',
+                controller: controllerDate,
+                initialDate: DateTime.now(),
+                firstDate: DateTime.now().subtract(Duration(days: 365)),
+                lastDate: DateTime.now().add(Duration(days: 365)),
+                prefixIcon: Icon(Icons.date_range),
                 borderRadius: BorderRadius.circular(5),
-                enableClearButton: true,
                 textStyle: textFieldStyle,
-                hintStyle: textFieldStyle,
-                isDense: isDense,
               ),
               SizedBox(height: 30),
               RaisedButton(
@@ -167,7 +153,9 @@ class _ExamplePageState extends State<ExamplePage> {
 
   @override
   void dispose() {
-    controller.dispose();
+    controllerDate.dispose();
+    controllerRegular.dispose();
+    controllerPassword.dispose();
     super.dispose();
   }
 }
