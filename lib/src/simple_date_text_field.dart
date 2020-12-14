@@ -18,9 +18,12 @@ class DateFormatter {
 class SimpleDateTextField extends StatefulWidget {
   final TextEditingController controller;
   final String labelText;
+  final Text headerText;
+  final double headerSpacing;
   final DateTime firstDate;
   final DateTime initialDate;
   final DateTime lastDate;
+  final void Function(DateTime) onDateChanged;
 
   /// Whether the text field should have a background color or not.
   final bool filled;
@@ -89,6 +92,9 @@ class SimpleDateTextField extends StatefulWidget {
     @required this.firstDate,
     @required this.initialDate,
     @required this.lastDate,
+    this.onDateChanged,
+    this.headerText,
+    this.headerSpacing = 6.0,
     this.borderRadius,
     this.borderSide,
     this.fillColor = Colors.white,
@@ -122,6 +128,8 @@ class _SimpleDateTextFieldState extends State<SimpleDateTextField> {
     return SimpleTextField(
       labelText: widget.labelText,
       controller: widget.controller,
+      headerText: widget.headerText,
+      headerSpacing: widget.headerSpacing,
       readOnly: true,
       enabled: true,
       height: widget.height,
@@ -162,6 +170,7 @@ class _SimpleDateTextFieldState extends State<SimpleDateTextField> {
           _initialDatePicked = true;
           _pickedDate = _date;
           widget.controller.text = _formattedDate;
+          widget.onDateChanged(_date);
         }
 
         WidgetsBinding.instance.focusManager.primaryFocus?.unfocus();
