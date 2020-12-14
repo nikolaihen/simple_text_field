@@ -19,6 +19,12 @@ class SimpleTextField extends StatefulWidget {
   /// The hint text of the text field.
   final String labelText;
 
+  /// The header text (static text positioned right above the text field).
+  final Text headerText;
+
+  /// Vertical spacing between the text field and the [headerText].
+  final double headerSpacing;
+
   /// The counter text of the text field
   final String counterText;
 
@@ -103,6 +109,8 @@ class SimpleTextField extends StatefulWidget {
 
   SimpleTextField({
     @required this.labelText,
+    this.headerText,
+    this.headerSpacing,
     this.counterText,
     this.controller,
     this.focusNode,
@@ -145,6 +153,8 @@ class SimpleTextField extends StatefulWidget {
   factory SimpleTextField.regular({
     @required String labelText,
     @required TextEditingController controller,
+    Text headerText,
+    double headerSpacing = 6,
     FocusNode focusNode,
     double height = 44,
     String Function(String) validator,
@@ -173,6 +183,8 @@ class SimpleTextField extends StatefulWidget {
     return SimpleTextField(
       labelText: labelText,
       controller: controller,
+      headerText: headerText,
+      headerSpacing: headerSpacing,
       focusNode: focusNode,
       height: height,
       fillColor: fillColor,
@@ -346,7 +358,7 @@ class _SimpleTextFieldState extends State<SimpleTextField> {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
+    final Widget textField = Stack(
       children: [
         Container(
           height: widget.height,
@@ -398,6 +410,19 @@ class _SimpleTextFieldState extends State<SimpleTextField> {
         ),
       ],
     );
+
+    if (widget.headerText != null) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          widget.headerText,
+          SizedBox(height: widget.headerSpacing),
+          textField
+        ],
+      );
+    }
+
+    return textField;
   }
 
   @override

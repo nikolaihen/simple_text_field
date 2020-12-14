@@ -86,6 +86,7 @@ class _ExamplePageState extends State<ExamplePage> {
                 controller: controllerPassword,
                 obscureText: true,
                 prefixIcon: Icon(Icons.lock),
+                headerText: Text('Password'),
               ),
               SizedBox(height: 30),
               SimpleDateTextField(
