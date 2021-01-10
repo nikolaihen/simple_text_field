@@ -137,7 +137,7 @@ class SimpleTextField extends StatefulWidget {
     this.autovalidateMode = AutovalidateMode.disabled,
     this.readOnly = false,
     this.keyboardType,
-    this.horizontalContentPadding = defaultHorizontalContentPadding,
+    this.horizontalContentPadding,
   }) : 
     assert(height != null, 'A height must be provided.'),
     assert(
@@ -235,6 +235,9 @@ class _SimpleTextFieldState extends State<SimpleTextField> {
 
     final bool heightTooSmallForPadding = (widget.height <= _fontSize);
 
+    double _horizontalContentPadding = 
+        widget.horizontalContentPadding ?? SimpleTextField.defaultHorizontalContentPadding;
+
     double _verticalContentPadding;
 
     if (heightTooSmallForPadding) {
@@ -244,9 +247,9 @@ class _SimpleTextFieldState extends State<SimpleTextField> {
     }
 
     return EdgeInsets.only(
-      left: widget.horizontalContentPadding,
+      left: _horizontalContentPadding,
       top: _verticalContentPadding.roundToDouble(),
-      right: hasSuffixIcon() ? 0.0 : widget.horizontalContentPadding,
+      right: hasSuffixIcon() ? 0.0 : _horizontalContentPadding,
       bottom: _verticalContentPadding.roundToDouble()
     );
   }
@@ -324,10 +327,13 @@ class _SimpleTextFieldState extends State<SimpleTextField> {
 
   BoxConstraints getPrefixIconConstraints() {
     return widget.prefixIcon != null
-        ? BoxConstraints.tight(
+        ? widget.iconConstraints ?? BoxConstraints.tight(
             Size(widget.height, widget.height)
           )
-        : BoxConstraints(maxWidth: widget.horizontalContentPadding);
+        : BoxConstraints(
+            maxWidth: widget.horizontalContentPadding 
+                ?? SimpleTextField.defaultHorizontalContentPadding
+          );
   }
 
   BoxConstraints getSuffixIconConstraints() {
@@ -335,7 +341,7 @@ class _SimpleTextFieldState extends State<SimpleTextField> {
         widget.enableClearButton || 
         widget.validInputIcon != null
     ) {
-      return BoxConstraints.tight(
+      return widget.iconConstraints ?? BoxConstraints.tight(
         Size(widget.height, widget.height)
       );
     }

@@ -64,7 +64,7 @@ class _ExamplePageState extends State<ExamplePage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              SimpleTextField.regular(
+              SimpleTextField(
                 labelText: 'Phone number',
                 controller: controllerRegular,
                 validator: (String val) {
@@ -79,6 +79,9 @@ class _ExamplePageState extends State<ExamplePage> {
                 textStyle: textFieldStyle,
                 validInputIcon: Icon(Icons.check_circle),
                 keyboardType: TextInputType.phone,
+                borderRadius: BorderRadius.circular(5),
+                filled: true,
+                fillColor: Colors.white,
               ),
               SizedBox(height: 30),
               SimpleTextField.regular(
