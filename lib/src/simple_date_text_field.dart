@@ -7,6 +7,8 @@ import 'utils/shadows.dart';
 class DateFormatter {
    
    static String format(DateTime date) {
+     if (date == null) return null;
+     
      final int day = date.day;
      final int month = date.month;
      final int year = date.year;

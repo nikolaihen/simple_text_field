@@ -14,6 +14,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
+        textSelectionColor: Colors.white,
       ),
       home: ExamplePage()
     );
@@ -34,10 +35,12 @@ class _ExamplePageState extends State<ExamplePage> {
   TextEditingController controllerPassword;
   double textFieldHeight = 50;
   TextStyle textFieldStyle = TextStyle(
-    fontSize: 16.0
+    fontSize: 16.0,
+    color: Colors.white
   );
   bool isDense = true;
   bool formValid = false;
+  DateTime pickedDate;
 
   @override
   void initState() {
@@ -50,6 +53,7 @@ class _ExamplePageState extends State<ExamplePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: Colors.grey.shade200,
       appBar: AppBar(
         title: Text('SimpleTextField example'),
@@ -64,26 +68,6 @@ class _ExamplePageState extends State<ExamplePage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              SimpleTextField(
-                labelText: 'Phone number',
-                controller: controllerRegular,
-                validator: (String val) {
-                  if (val.length < 8) {
-                    return 'Must be 8 characters or more!';
-                  }
-                  return null;
-                },
-                prefixIcon: Icon(Icons.phone),
-                height: textFieldHeight,
-                isDense: isDense,
-                textStyle: textFieldStyle,
-                validInputIcon: Icon(Icons.check_circle),
-                keyboardType: TextInputType.phone,
-                borderRadius: BorderRadius.circular(5),
-                filled: true,
-                fillColor: Colors.white,
-              ),
-              SizedBox(height: 30),
               SimpleTextField.regular(
                 labelText: 'Password',
                 controller: controllerPassword,

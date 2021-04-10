@@ -14,6 +14,8 @@ class SimpleTextField extends StatefulWidget {
   /// If null, this widget will create its own [TextEditingController].
   final TextEditingController controller;
 
+  final bool autofocus;
+
   final FocusNode focusNode;
 
   /// The hint text of the text field.
@@ -113,6 +115,7 @@ class SimpleTextField extends StatefulWidget {
     this.headerSpacing,
     this.counterText,
     this.controller,
+    this.autofocus = false,
     this.focusNode,
     this.filled = false,
     this.fillColor,
@@ -285,16 +288,8 @@ class _SimpleTextFieldState extends State<SimpleTextField> {
     } else {
       if (widget.obscureText) {
         return GestureDetector(
-          onTap: () {
-            setState(() {
-              _obscureText = !_obscureText;
-            });
-          },
-          child: Icon(
-            _obscureText
-                ? Icons.visibility_off
-                : Icons.visibility
-            ),
+          onTap: () => setState(() => _obscureText = !_obscureText),
+          child: Icon(_obscureText ? Icons.visibility_off : Icons.visibility),
         );
       }
 
@@ -375,18 +370,18 @@ class _SimpleTextFieldState extends State<SimpleTextField> {
         ),
         GestureDetector(
           onTap: widget.onTap,
-          child: TextFormField(
+          child: TextField(
             style: widget.textStyle,
-            validator: widget.validator,
+            //validator: widget.validator,
             onChanged: widget.onChanged,
             onTap: widget.onTap,
             enabled: (widget.onTap != null && widget.disableIfOnTapNotNull) 
                 ? false 
                 : widget.enabled,
             controller: widget.controller,
+            autofocus: widget.autofocus,
             focusNode: _focusNode,
             textAlignVertical: TextAlignVertical.center,
-            autovalidateMode: widget.autovalidateMode,
             obscureText: widget.obscureText && !_obscureText,
             readOnly: widget.readOnly,
             keyboardType: widget.keyboardType,
