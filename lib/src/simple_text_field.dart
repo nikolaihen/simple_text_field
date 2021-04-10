@@ -70,6 +70,8 @@ class SimpleTextField extends StatefulWidget {
   /// Called when [suffixIcon] or [validInputIcon] is tapped.
   final void Function() suffixIconOnTap;
 
+  final void Function() onCleared;
+
   final Icon prefixIcon;
 
   final Icon suffixIcon;
@@ -111,6 +113,7 @@ class SimpleTextField extends StatefulWidget {
 
   SimpleTextField({
     @required this.labelText,
+    @required this.height,
     this.headerText,
     this.headerSpacing,
     this.counterText,
@@ -120,7 +123,6 @@ class SimpleTextField extends StatefulWidget {
     this.filled = false,
     this.fillColor,
     this.textStyle,
-    this.height,
     this.borderRadius,
     this.shadow,
     this.enabled = true,
@@ -128,6 +130,7 @@ class SimpleTextField extends StatefulWidget {
     this.onTap,
     this.onChanged,
     this.suffixIconOnTap,
+    this.onCleared,
     this.validator,
     this.prefixIcon,
     this.suffixIcon,
@@ -309,6 +312,7 @@ class _SimpleTextFieldState extends State<SimpleTextField> {
           return GestureDetector(
             onTap: () {
               widget.controller.clear();
+              widget.onCleared?.call();
               setState(() {});
             },
             child: Icon(Icons.clear),
