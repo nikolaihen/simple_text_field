@@ -63,77 +63,16 @@ class _ExamplePageState extends State<ExamplePage> {
         padding: EdgeInsets.symmetric(
           horizontal: 40
         ),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SimpleTextField.regular(
-                labelText: 'Password',
-                controller: controllerPassword,
-                obscureText: true,
-                prefixIcon: Icon(Icons.lock),
-                headerText: Text('Password'),
-              ),
-              SizedBox(height: 30),
-              SimpleDateTextField(
-                labelText: 'Regular date field',
-                controller: controllerDate,
-                initialDate: DateTime.now(),
-                firstDate: DateTime.now().subtract(Duration(days: 365)),
-                lastDate: DateTime.now().add(Duration(days: 365)),
-                prefixIcon: Icon(Icons.date_range),
-                borderRadius: BorderRadius.circular(5),
-                textStyle: textFieldStyle,
-              ),
-              SizedBox(height: 30),
-              RaisedButton(
-                onPressed: () {
-                  _formKey.currentState.validate();
-                },
-                child: Text('Validate'),
-              ),
-              SizedBox(height: 30),
-              Text('CUSTOM TEXTFIELD CONTROLS'),
-              Slider(
-                value: textFieldHeight,
-                onChanged: (double val) {
-                  setState(() {
-                    textFieldHeight = val;
-                  });
-                },
-                min: 10,
-                max: 150,
-                label: textFieldHeight.round().toString(),
-              ),
-              Text('TextField height: ${textFieldHeight.round()}'),
-              SizedBox(height: 15),
-              Slider(
-                value: textFieldStyle.fontSize,
-                onChanged: (double val) {
-                  setState(() {
-                    textFieldStyle = textFieldStyle.copyWith(
-                      fontSize: val
-                    );
-                  });
-                },
-                min: 8,
-                max: 64,
-                label: textFieldStyle.fontSize.round().toString(),
-              ),
-              Text('TextField font size: ${textFieldStyle.fontSize.round()}'),
-              SizedBox(height: 15),
-              CheckboxListTile(
-                title: Text('TextField isDense: $isDense'),
-                value: isDense, 
-                onChanged: (bool val) {
-                  setState(() {
-                    isDense = val;
-                  });
-                }
-              )
-            ],
-          ),
+        child: SimpleTextField(
+          labelText: 'Password',
+          controller: controllerPassword,
+          prefixIcon: Icon(Icons.lock),
+          obscureText: true,
+          headerText: Text('Password'),
+          height: 44,
+          borderRadius: BorderRadius.circular(5),
+          filled: true,
+          fillColor: Colors.white,
         ),
       ),
     );

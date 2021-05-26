@@ -223,8 +223,9 @@ class SimpleTextField extends StatefulWidget {
 
 class _SimpleTextFieldState extends State<SimpleTextField> {
 
-  bool _obscureText = false;
+  bool _obscureText;
   FocusNode _focusNode;
+  TextEditingController _controller;
 
   TextStyle getTextStyle(BuildContext context) =>
       widget.textStyle ?? Theme.of(context).textTheme.subtitle1;
@@ -264,7 +265,8 @@ class _SimpleTextFieldState extends State<SimpleTextField> {
     return 
         widget.enableClearButton || 
         widget.suffixIcon != null || 
-        widget.validInputIcon != null;
+        widget.validInputIcon != null ||
+        widget.obscureText;
   }
 
   OutlineInputBorder _buildBorder() {
@@ -277,6 +279,14 @@ class _SimpleTextFieldState extends State<SimpleTextField> {
   }
 
   Widget _buildSuffixIcon() {
+    print('Building suffix icon...');
+    if (widget.obscureText) {
+      return GestureDetector(
+        onTap: () => setState(() => _obscureText = !_obscureText),
+        child: Icon(_obscureText ? Icons.visibility_off : Icons.visibility),
+      );
+    }
+
     if ((!widget.enableClearButton || widget.controller.text.isEmpty) && 
           widget.suffixIcon != null
     ) {
@@ -289,13 +299,6 @@ class _SimpleTextFieldState extends State<SimpleTextField> {
         );
       }
     } else {
-      if (widget.obscureText) {
-        return GestureDetector(
-          onTap: () => setState(() => _obscureText = !_obscureText),
-          child: Icon(_obscureText ? Icons.visibility_off : Icons.visibility),
-        );
-      }
-
       if (widget.controller.text.isNotEmpty) {
         if (widget.validator != null && (
           widget.validator(widget.controller.text) == null && widget.validInputIcon != null
@@ -337,7 +340,8 @@ class _SimpleTextFieldState extends State<SimpleTextField> {
 
   BoxConstraints getSuffixIconConstraints() {
     if (widget.suffixIcon != null || 
-        widget.enableClearButton || 
+        widget.enableClearButton ||
+        widget.obscureText ||
         widget.validInputIcon != null
     ) {
       return widget.iconConstraints ?? BoxConstraints.tight(
@@ -350,14 +354,15 @@ class _SimpleTextFieldState extends State<SimpleTextField> {
 
   /// Make sure to rebuild the text field when the text changes such
   /// that the suffix icon updates properly
-  void _controllerListener() {
-    setState(() {});
-  }
+  void _controllerListener() => setState(() {});
 
   @override
   void initState() {
-    widget.controller.addListener(_controllerListener);
+    _controller = widget.controller ?? TextEditingController();
+    _controller.addListener(_controllerListener);
     _focusNode = widget.focusNode ?? FocusNode();
+    _obscureText = widget.obscureText;
+
     super.initState();
   }
 
@@ -382,11 +387,11 @@ class _SimpleTextFieldState extends State<SimpleTextField> {
             enabled: (widget.onTap != null && widget.disableIfOnTapNotNull) 
                 ? false 
                 : widget.enabled,
-            controller: widget.controller,
+            controller: _controller,
             autofocus: widget.autofocus,
             focusNode: _focusNode,
             textAlignVertical: TextAlignVertical.center,
-            obscureText: widget.obscureText && !_obscureText,
+            obscureText: _obscureText,
             readOnly: widget.readOnly,
             keyboardType: widget.keyboardType,
             decoration: InputDecoration(
@@ -432,7 +437,7 @@ class _SimpleTextFieldState extends State<SimpleTextField> {
 
   @override
   void dispose() {
-    widget.controller?.removeListener(_controllerListener);
+    _controller?.removeListener(_controllerListener);
     _focusNode?.dispose();
     super.dispose();
   }
