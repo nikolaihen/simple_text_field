@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class SimpleTextFieldShadows {
 
-  static List<BoxShadow> regular({Color color}) {
+  static List<BoxShadow> regular({Color? color}) {
     return [
       BoxShadow(
         offset: const Offset(0, 2),

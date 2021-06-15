@@ -12,45 +12,45 @@ class SimpleTextField extends StatefulWidget {
   /// Controls the text being edited.
   /// 
   /// If null, this widget will create its own [TextEditingController].
-  final TextEditingController controller;
+  final TextEditingController? controller;
 
   final bool autofocus;
 
-  final FocusNode focusNode;
+  final FocusNode? focusNode;
 
   /// The hint text of the text field.
   final String labelText;
 
   /// The header text (static text positioned right above the text field).
-  final Text headerText;
+  final Text? headerText;
 
   /// Vertical spacing between the text field and the [headerText].
-  final double headerSpacing;
+  final double? headerSpacing;
 
   /// The counter text of the text field
-  final String counterText;
+  final String? counterText;
 
   /// Whether the text field should have a background color or not.
   final bool filled;
 
   /// The color to fill the text field's background with.
   /// Must not be null when [filled] is true.
-  final Color fillColor;
+  final Color? fillColor;
 
   /// The style used for the text input.
-  final TextStyle textStyle;
+  final TextStyle? textStyle;
 
   /// The vertical size of the text field.
   final double height;
   
   /// The horizontal, internal padding of the text field.
-  final double horizontalContentPadding;
+  final double? horizontalContentPadding;
 
   /// The border radius of the text field.
-  final BorderRadius borderRadius;
+  final BorderRadius? borderRadius;
 
   /// A list of shadows cast by this box behind the text field.
-  final List<BoxShadow> shadow;
+  final List<BoxShadow>? shadow;
 
   /// Whether this text field is editable.
   final bool enabled;
@@ -61,20 +61,20 @@ class SimpleTextField extends StatefulWidget {
   final bool disableIfOnTapNotNull;
 
   /// Called when the text field is tapped.
-  final void Function() onTap;
+  final void Function()? onTap;
 
-  final void Function(String) onChanged;
+  final void Function(String)? onChanged;
 
-  final String Function(String) validator;
+  final String? Function(String)? validator;
 
   /// Called when [suffixIcon] or [validInputIcon] is tapped.
-  final void Function() suffixIconOnTap;
+  final void Function()? suffixIconOnTap;
 
-  final void Function() onCleared;
+  final void Function()? onCleared;
 
-  final Icon prefixIcon;
+  final Icon? prefixIcon;
 
-  final Icon suffixIcon;
+  final Icon? suffixIcon;
 
   /// Whether a button to clear the text field should show in the [suffixIcon]
   /// position when the text field is not empty.
@@ -83,7 +83,7 @@ class SimpleTextField extends StatefulWidget {
   final bool enableClearButton;
 
   /// The icon showing in the [suffixIcon] position when the input is valid.
-  final Icon validInputIcon;
+  final Icon? validInputIcon;
 
   final AutovalidateMode autovalidateMode;
 
@@ -91,7 +91,7 @@ class SimpleTextField extends StatefulWidget {
   /// 
   /// This can be used to modify the [BoxConstraints] 
   /// surrounding [prefixIcon] and [suffixIcon].
-  final BoxConstraints iconConstraints;
+  final BoxConstraints? iconConstraints;
 
   /// Whether the [InputDecorator.child] is part of a dense form 
   /// (i.e., uses less vertical space).
@@ -102,7 +102,7 @@ class SimpleTextField extends StatefulWidget {
   final bool obscureText;
 
   /// The styling for the border. Defaults to
-  final BorderSide borderSide;
+  final BorderSide? borderSide;
 
   final bool readOnly;
   
@@ -112,8 +112,8 @@ class SimpleTextField extends StatefulWidget {
   static const defaultHorizontalContentPadding = 12.0;
 
   SimpleTextField({
-    @required this.labelText,
-    @required this.height,
+    required this.labelText,
+    required this.height,
     this.headerText,
     this.headerSpacing,
     this.counterText,
@@ -123,7 +123,7 @@ class SimpleTextField extends StatefulWidget {
     this.filled = false,
     this.fillColor,
     this.textStyle,
-    this.borderRadius,
+    required this.borderRadius,
     this.shadow,
     this.enabled = true,
     this.disableIfOnTapNotNull = true,
@@ -142,42 +142,40 @@ class SimpleTextField extends StatefulWidget {
     this.borderSide,
     this.autovalidateMode = AutovalidateMode.disabled,
     this.readOnly = false,
-    this.keyboardType,
+    this.keyboardType = TextInputType.text,
     this.horizontalContentPadding,
   }) : 
-    assert(height != null, 'A height must be provided.'),
     assert(
       !filled || (filled && fillColor != null),
       'When filled == true, a fillColor must be provided.'
     ),
     assert(
-      suffixIconOnTap == null || 
-      (suffixIconOnTap != null && suffixIcon != null),
+      suffixIconOnTap == null || suffixIcon != null,
       'A callback when tapping the suffixIcon was provided, but suffixIcon == null.'
     );
 
   factory SimpleTextField.regular({
-    @required String labelText,
-    @required TextEditingController controller,
-    Text headerText,
+    required String labelText,
+    TextEditingController? controller,
+    Text? headerText,
     double headerSpacing = 6,
-    FocusNode focusNode,
+    FocusNode? focusNode,
     double height = 44,
-    String Function(String) validator,
-    TextStyle textStyle,
+    String Function(String)? validator,
+    TextStyle? textStyle,
     AutovalidateMode autovalidateMode = AutovalidateMode.disabled,
-    BorderSide borderSide,
-    BorderRadius borderRadius,
-    TextInputType keyboardType,
-    List<BoxShadow> shadow,
+    BorderSide? borderSide,
+    BorderRadius? borderRadius,
+    TextInputType keyboardType = TextInputType.text,
+    List<BoxShadow>? shadow,
     Color fillColor = Colors.white,
-    Color shadowColor,
-    Icon prefixIcon,
-    Icon suffixIcon,
-    Icon validInputIcon,
-    void Function (String) onChanged,
-    void Function() suffixIconOnTap,
-    void Function() onTap,
+    Color? shadowColor,
+    Icon? prefixIcon,
+    Icon? suffixIcon,
+    Icon? validInputIcon,
+    void Function (String)? onChanged,
+    void Function()? suffixIconOnTap,
+    void Function()? onTap,
     bool filled = true,
     bool isDense = true,
     bool enabled = true,
@@ -223,12 +221,12 @@ class SimpleTextField extends StatefulWidget {
 
 class _SimpleTextFieldState extends State<SimpleTextField> {
 
-  bool _obscureText;
-  FocusNode _focusNode;
-  TextEditingController _controller;
+  late bool _obscureText;
+  late FocusNode _focusNode;
+  late TextEditingController _controller;
 
   TextStyle getTextStyle(BuildContext context) =>
-      widget.textStyle ?? Theme.of(context).textTheme.subtitle1;
+      widget.textStyle ?? Theme.of(context).textTheme.subtitle1!;
 
   /// Returns the padding to use inside of the textfield that will 
   /// match the given [widget.height].
@@ -238,7 +236,7 @@ class _SimpleTextFieldState extends State<SimpleTextField> {
     // If no text style is given, use the default font size
     // used internally by the TextField widget.
     final double _fontSize = 
-        widget.textStyle?.fontSize ?? Theme.of(context).textTheme.subtitle1.fontSize;
+        widget.textStyle?.fontSize ?? Theme.of(context).textTheme.subtitle1!.fontSize!;
 
     final bool heightTooSmallForPadding = (widget.height <= _fontSize);
 
@@ -274,11 +272,11 @@ class _SimpleTextFieldState extends State<SimpleTextField> {
       borderSide: widget.borderSide ?? BorderSide(
         style: BorderStyle.none
       ),
-      borderRadius: widget.borderRadius
+      borderRadius: widget.borderRadius ?? BorderRadius.zero
     );
   }
 
-  Widget _buildSuffixIcon() {
+  Widget? _buildSuffixIcon() {
     print('Building suffix icon...');
     if (widget.obscureText) {
       return GestureDetector(
@@ -287,11 +285,11 @@ class _SimpleTextFieldState extends State<SimpleTextField> {
       );
     }
 
-    if ((!widget.enableClearButton || widget.controller.text.isEmpty) && 
+    if ((!widget.enableClearButton || _controller.text.isEmpty) && 
           widget.suffixIcon != null
     ) {
       if (widget.suffixIconOnTap == null) {
-        return widget.suffixIcon;
+        return widget.suffixIcon!;
       } else {
         return GestureDetector(
           onTap: widget.suffixIconOnTap,
@@ -299,12 +297,12 @@ class _SimpleTextFieldState extends State<SimpleTextField> {
         );
       }
     } else {
-      if (widget.controller.text.isNotEmpty) {
+      if (_controller.text.isNotEmpty) {
         if (widget.validator != null && (
-          widget.validator(widget.controller.text) == null && widget.validInputIcon != null
+          widget.validator!(_controller.text) == null && widget.validInputIcon != null
         )) {
           if (widget.suffixIconOnTap == null) {
-            return widget.validInputIcon;
+            return widget.validInputIcon!;
           } else {
             return GestureDetector(
               onTap: widget.suffixIconOnTap,
@@ -314,7 +312,7 @@ class _SimpleTextFieldState extends State<SimpleTextField> {
         } else {
           return GestureDetector(
             onTap: () {
-              widget.controller.clear();
+              _controller.clear();
               widget.onCleared?.call();
               setState(() {});
             },
@@ -425,7 +423,7 @@ class _SimpleTextFieldState extends State<SimpleTextField> {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          widget.headerText,
+          widget.headerText!,
           SizedBox(height: widget.headerSpacing),
           textField
         ],
@@ -437,8 +435,11 @@ class _SimpleTextFieldState extends State<SimpleTextField> {
 
   @override
   void dispose() {
-    _controller?.removeListener(_controllerListener);
-    _focusNode?.dispose();
+    _controller.removeListener(_controllerListener);
+    _focusNode.dispose();
+
+    if (widget.controller == null) _controller.dispose();
+
     super.dispose();
   }
 }
