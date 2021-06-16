@@ -259,6 +259,10 @@ class _SimpleTextFieldState extends State<SimpleTextField> {
     );
   }
 
+  bool hasIcon() {
+    return hasSuffixIcon() || widget.prefixIcon != null;
+  }
+
   bool hasSuffixIcon() {
     return 
         widget.enableClearButton || 
@@ -276,8 +280,7 @@ class _SimpleTextFieldState extends State<SimpleTextField> {
     );
   }
 
-  Widget? _buildSuffixIcon() {
-    print('Building suffix icon...');
+  Widget _buildSuffixIcon() {
     if (widget.obscureText) {
       return GestureDetector(
         onTap: () => setState(() => _obscureText = !_obscureText),
@@ -321,33 +324,37 @@ class _SimpleTextFieldState extends State<SimpleTextField> {
         }
       }
 
-      return null;
+      return Icon(Icons.clear, color: Colors.transparent);
     }
   }
 
   BoxConstraints getPrefixIconConstraints() {
-    return widget.prefixIcon != null
+    return widget.iconConstraints ?? BoxConstraints.tight(
+      Size(widget.height, widget.height)
+    );
+
+    /* return widget.prefixIcon != null
         ? widget.iconConstraints ?? BoxConstraints.tight(
             Size(widget.height, widget.height)
           )
         : BoxConstraints(
             maxWidth: widget.horizontalContentPadding 
                 ?? SimpleTextField.defaultHorizontalContentPadding
-          );
+          ); */
   }
 
   BoxConstraints getSuffixIconConstraints() {
-    if (widget.suffixIcon != null || 
-        widget.enableClearButton ||
-        widget.obscureText ||
-        widget.validInputIcon != null
-    ) {
+    return widget.iconConstraints ?? BoxConstraints.tight(
+        Size(widget.height, widget.height)
+      );
+
+    /* if (hasSuffixIcon()) {
       return widget.iconConstraints ?? BoxConstraints.tight(
         Size(widget.height, widget.height)
       );
     }
 
-    return BoxConstraints(maxWidth: 0);
+    return BoxConstraints(maxWidth: 0); */
   }
 
   /// Make sure to rebuild the text field when the text changes such
@@ -398,7 +405,7 @@ class _SimpleTextFieldState extends State<SimpleTextField> {
               labelStyle: widget.textStyle,
               counterText: widget.counterText,
               prefixIcon: widget.prefixIcon,
-              suffixIcon: hasSuffixIcon() ? _buildSuffixIcon() : null,
+              suffixIcon: _buildSuffixIcon(),
               prefixIconConstraints: getPrefixIconConstraints(),
               suffixIconConstraints: getSuffixIconConstraints(),
               filled: widget.filled,

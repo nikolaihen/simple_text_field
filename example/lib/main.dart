@@ -63,16 +63,30 @@ class _ExamplePageState extends State<ExamplePage> {
         padding: EdgeInsets.symmetric(
           horizontal: 40
         ),
-        child: SimpleTextField(
-          labelText: 'Password',
-          controller: controllerPassword,
-          prefixIcon: Icon(Icons.lock),
-          obscureText: true,
-          headerText: Text('Password'),
-          height: 44,
-          borderRadius: BorderRadius.circular(5),
-          filled: true,
-          fillColor: Colors.white,
+        child: Column(
+          children: [
+            SimpleTextField(
+              labelText: 'Password',
+              controller: controllerPassword,
+              prefixIcon: Icon(Icons.lock),
+              obscureText: true,
+              headerText: Text('Password'),
+              height: 44,
+              borderRadius: BorderRadius.circular(5),
+              filled: true,
+              fillColor: Colors.white,
+            ),
+            SizedBox(height: 15),
+            SimpleTextField(
+              labelText: 'Skriv inn epost',
+              controller: controllerRegular,
+              headerText: Text('Epost'),
+              height: 44,
+              borderRadius: BorderRadius.circular(5),
+              filled: true,
+              fillColor: Colors.white,
+            ),
+          ],
         ),
       ),
     );
